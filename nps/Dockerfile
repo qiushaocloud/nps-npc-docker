@@ -4,7 +4,8 @@ LABEL author="qiushaocloud"
 LABEL site="https://www.qiushaocloud.top"
 LABEL email="qiushaocloud@126.com"
 
-RUN apk update \
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories \
+    && apk update \
     && apk add -U tzdata wget \
     && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
