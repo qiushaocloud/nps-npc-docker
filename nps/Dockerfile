@@ -10,18 +10,18 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
     && apk add -U tzdata wget \
     && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
-COPY bootstarp.sh /usr/bin/bootstarp.sh
+COPY bootstarp.sh /bootstarp.sh
 COPY linux_amd64_server.tar.gz /tmp-download-dir/linux_amd64_server.tar.gz
 
 RUN cd /tmp-download-dir \
     && mkdir -p linux_amd64_server \
     && tar -zxvf linux_amd64_server.tar.gz -C linux_amd64_server \
     && cd linux_amd64_server \
-    && chmod +x /usr/bin/bootstarp.sh \
+    && chmod +x /bootstarp.sh \
     && chmod +x nps \
     && ./nps install \
     && cd / \
     && rm -rf /tmp-download-dir \
     && rm /usr/bin/nps-update
 
-CMD ["bootstarp.sh"]
+CMD ["sh /bootstarp.sh"]
