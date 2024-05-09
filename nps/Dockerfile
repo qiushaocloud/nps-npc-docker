@@ -3,6 +3,8 @@ LABEL author="qiushaocloud"
 LABEL site="https://www.qiushaocloud.top"
 LABEL email="qiushaocloud@126.com"
 
+ENV NPS_VERSION=v0.26.10
+
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories \
     && apk update \
     && apk add -U tzdata wget \
