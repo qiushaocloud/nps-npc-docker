@@ -7,7 +7,7 @@ ENV NPS_VERSION=v0.26.10
 
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories \
     && apk update \
-    && apk add -U tzdata wget \
+    && apk add -U tzdata wget procps \
     && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
 COPY bootstarp.sh /bootstarp.sh
