@@ -1,0 +1,18 @@
+version: "3"
+services:
+  qiushaocloud-npc-client:
+    image: qiushaocloud/npc-client:latest
+    container_name: qiushaocloud-npc-client
+    network_mode: "host"
+    restart: always
+    volumes: 
+      - ./conf:/etc/npc/conf:rw
+    #ports:
+    #  - "8000:8000"
+    #  - "8080:8080/udp"
+    #  - "8081:8081"
+    #  - "80:80"
+    #  - "443:443"
+    #  - "22:22"
+    #  - "3306:3306"
+    #  - "6379:6379"

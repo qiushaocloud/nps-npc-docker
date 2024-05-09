@@ -1,92 +1,105 @@
 # nps-npc-docker
 
+#### 介绍
+这是一个 nps/npc docker，nps是一款轻量级、高性能、功能强大的**内网穿透**代理服务器。目前支持**tcp、udp流量转发**，可支持任何**tcp、udp**上层协议（访问内网网站、本地支付接口调试、ssh访问、远程桌面，内网dns解析等等……），此外还**支持内网http代理、内网socks5代理**、**p2p等**，并带有功能强大的web管理端。
+
+#### 背景
+![image](https://github.com/ehang-io/nps/blob/master/image/web.png?raw=true)
+
+1. 做微信公众号开发、小程序开发等----> 域名代理模式
+
+2. 想在外网通过ssh连接内网的机器，做云服务器到内网服务器端口的映射，----> tcp代理模式
+
+3. 在非内网环境下使用内网dns，或者需要通过udp访问内网机器等----> udp代理模式
+
+4. 在外网使用HTTP代理访问内网站点----> http代理模式
+
+5. 搭建一个内网穿透ss，在外网如同使用内网vpn一样访问内网资源或者设备----> socks5代理模式
+## 特点
+- 协议支持全面，兼容几乎所有常用协议，例如tcp、udp、http(s)、socks5、p2p、http代理...
+- 全平台兼容(linux、windows、macos、群辉等)，支持一键安装为系统服务
+- 控制全面，同时支持服务端和客户端控制
+- https集成，支持将后端代理和web服务转成https，同时支持多证书
+- 操作简单，只需简单的配置即可在web ui上完成其余操作
+- 展示信息全面，流量、系统信息、即时带宽、客户端版本等
+- 扩展功能强大，该有的都有了（缓存、压缩、加密、流量限制、带宽限制、端口复用等等）
+- 域名解析具备自定义header、404页面配置、host修改、站点保护、URL路由、泛解析等功能
+- 服务端支持多用户和用户注册功能
+
+**没找到你想要的功能？不要紧，点击[进入文档](https://ehang-io.github.io/nps)查找吧**
+**参考 [NPS GitHub](https://github.com/ehang-io/nps) 代码仓库**
 
 
-## Getting started
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+#### 使用说明
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+##### 服务端启动（nps）
+* Docker 部署
+  `docker run -d --name qiushaocloud-nps-server --net=host -v ./conf:/etc/nps/conf qiushaocloud/nps-server:latest`
+* Docker Compose 部署，[docker-compose.yaml 文件](https://github.com/qiushaocloud/nps-npc-docker/tree/master/nps/docker-compose.yaml)
+  ```yaml
+  version: "3"
+  services:
+    qiushaocloud-nps-server:
+      image: qiushaocloud/nps-server:latest
+      container_name: qiushaocloud-nps-server
+      network_mode: "host"
+      restart: always
+      volumes: 
+        - ./conf:/etc/nps/conf:rw
+      #ports:
+      #  - "8000:8000"
+      #  - "8080:8080/udp"
+      #  - "8081:8081"
+      #  - "80:80"
+      #  - "443:443"
+      #  - "22:22"
+      #  - "3306:3306"
+      #  - "6379:6379" 
+  ```
+* Config Download: [服务端配置](https://github.com/qiushaocloud/nps-npc-docker/tree/master/nps/conf)
 
-## Add your files
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+##### 客户端启动（npc）
+* Docker 部署
+  `docker run -d --name qiushaocloud-npc-client --net=host -v ./conf:/etc/npc/conf qiushaocloud/npc-client:latest`
+* Docker Compose 部署，[docker-compose.yaml 文件](https://github.com/qiushaocloud/nps-npc-docker/tree/master/npc/docker-compose.yaml)
+  ```yaml
+  version: "3"
+  services:
+    qiushaocloud-npc-client:
+      image: qiushaocloud/npc-client:latest
+      container_name: qiushaocloud-npc-client
+      network_mode: "host"
+      restart: always
+      volumes: 
+        - ./conf:/etc/npc/conf:rw
+      #ports:
+      #  - "8000:8000"
+      #  - "8080:8080/udp"
+      #  - "8081:8081"
+      #  - "80:80"
+      #  - "443:443"
+      #  - "22:22"
+      #  - "3306:3306"
+      #  - "6379:6379" 
+  ```
+* Config Download: [客户端配置](https://github.com/qiushaocloud/nps-npc-docker/tree/master/npc/conf)
 
-```
-cd existing_repo
-git remote add origin https://gitlab.qiushaocloud.top:61024/qiushaocloud/nps-npc-docker.git
-git branch -M master
-git push -uf origin master
-```
 
-## Integrate with your tools
 
-- [ ] [Set up project integrations](https://gitlab.qiushaocloud.top:61024/qiushaocloud/nps-npc-docker/-/settings/integrations)
+#### 参与贡献
 
-## Collaborate with your team
+1.  Fork 本仓库
+2.  新建 Feat_xxx 分支
+3.  提交代码
+4.  新建 Pull Request
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Automatically merge when pipeline succeeds](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
 
-## Test and Deploy
+#### 分享者信息
 
-Use the built-in continuous integration in GitLab.
-
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
-
-***
-
-# Editing this README
-
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thank you to [makeareadme.com](https://www.makeareadme.com/) for this template.
-
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
-
-## Name
-Choose a self-explaining name for your project.
-
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
-
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
-
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
-
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+1. 分享者邮箱: qiushaocloud@126.com
+2. [分享者网站](https://www.qiushaocloud.top)
+3. [分享者自己搭建的 gitlab](https://gitlab.qiushaocloud.top/qiushaocloud) 
+3. [分享者 gitee](https://gitee.com/qiushaocloud/dashboard/projects) 
+3. [分享者 github](https://github.com/qiushaocloud?tab=repositories) 
