@@ -7,6 +7,7 @@ services:
     restart: always
     volumes: 
       - ./conf:/etc/nps/conf:rw
+      #- /etc/hosts:/etc/hosts
     environment:
       - TZ=Asia/Shanghai
       - RERUN_MAX_NPS_CPU=110 # 如果配置了该值，则会在服务端启动时，根据CPU使用率自动重启服务，防止CPU过高导致服务端卡死
