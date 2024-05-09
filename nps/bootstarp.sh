@@ -1,8 +1,5 @@
 #!/bin/bash
 
-CUR_DIR=$(dirname "$0")
-echo "CUR_DIR: $CUR_DIR"
-
 # 如果环境变量 RERUN_MAX_NPS_CPU 存在，则进入循环检查 NPS 进程的 CPU 使用率
 if [ -n "$RERUN_MAX_NPS_CPU" ]; then
   echo "Starting check nps cpu..."
