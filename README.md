@@ -47,6 +47,9 @@
       restart: always
       volumes: 
         - ./conf:/etc/nps/conf:rw
+      environment:
+        - TZ=Asia/Shanghai
+        - RERUN_MAX_NPS_CPU=110 # 如果配置了该值，则会在服务端启动时，根据CPU使用率自动重启服务，防止CPU过高导致服务端卡死
       #ports:
       #  - "8000:8000"
       #  - "8080:8080/udp"
@@ -57,7 +60,7 @@
       #  - "3306:3306"
       #  - "6379:6379" 
   ```
-* Config Download: [服务端配置](https://github.com/qiushaocloud/nps-npc-docker/tree/master/nps/conf)
+* NPS Config Download: [服务端配置](https://github.com/qiushaocloud/nps-npc-docker/tree/master/nps/conf)
 
 
 ##### 客户端启动（npc）
@@ -74,6 +77,10 @@
       restart: always
       volumes: 
         - ./conf:/etc/npc/conf:rw
+        #- /tmp/npcDownload:/tmp/npcDownload:rw
+      environment:
+        - TZ=Asia/Shanghai
+        - RERUN_MAX_NPC_CPU=110 # 如果配置了该值，则会在客户端启动时，根据CPU使用率自动重启客户端，防止CPU过高导致客户端卡死
       #ports:
       #  - "8000:8000"
       #  - "8080:8080/udp"
@@ -84,7 +91,7 @@
       #  - "3306:3306"
       #  - "6379:6379" 
   ```
-* Config Download: [客户端配置](https://github.com/qiushaocloud/nps-npc-docker/tree/master/npc/conf)
+* NPC Config Download: [客户端配置](https://github.com/qiushaocloud/nps-npc-docker/tree/master/npc/conf)
 
 
 

@@ -7,6 +7,10 @@ services:
     restart: always
     volumes: 
       - ./conf:/etc/npc/conf:rw
+      #- /tmp/npcDownload:/tmp/npcDownload:rw
+    environment:
+      - TZ=Asia/Shanghai
+      - RERUN_MAX_NPC_CPU=110 # 如果配置了该值，则会在客户端启动时，根据CPU使用率自动重启客户端，防止CPU过高导致客户端卡死
     #ports:
     #  - "8000:8000"
     #  - "8080:8080/udp"
