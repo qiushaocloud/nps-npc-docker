@@ -14,7 +14,8 @@ COPY bootstarp.sh /usr/bin/bootstarp.sh
 COPY linux_amd64_client.tar.gz /tmp-download-dir/linux_amd64_client.tar.gz
 
 RUN cd /tmp-download-dir \
-    && tar -zxvf linux_amd64_client.tar.gz \
+    && mkdir -p linux_amd64_client \
+    && tar -zxvf linux_amd64_client.tar.gz -C linux_amd64_client \
     && cd linux_amd64_client \
     && mkdir -p /etc/npc \
     && cp -ra ./conf /etc/npc/ \

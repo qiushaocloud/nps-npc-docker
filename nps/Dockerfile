@@ -14,7 +14,8 @@ COPY bootstarp.sh /usr/bin/bootstarp.sh
 COPY linux_amd64_server.tar.gz /tmp-download-dir/linux_amd64_server.tar.gz
 
 RUN cd /tmp-download-dir \
-    && tar -zxvf linux_amd64_server.tar.gz \
+    && mkdir -p linux_amd64_server \
+    && tar -zxvf linux_amd64_server.tar.gz -C linux_amd64_server \
     && cd linux_amd64_server \
     && chmod +x /usr/bin/bootstarp.sh \
     && chmod +x nps \
