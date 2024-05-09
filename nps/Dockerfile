@@ -24,4 +24,4 @@ RUN cd /tmp-download-dir \
     && rm -rf /tmp-download-dir \
     && rm /usr/bin/nps-update
 
-CMD ["sh /bootstarp.sh"]
+CMD ["sh", "/bootstarp.sh"]
