@@ -20,9 +20,19 @@ if [ -n "$RERUN_MAX_NPC_CPU" ]; then
   while true; do
     sleep 120
 
+    # 检查 NPC 服务是否启动成功
+    if [ -z "$(ps aux | grep "npc -config=" | grep -v grep)" ]; then
+      echo "npc service not start, restart..."
+      echo "RUN CMD02: npc -config=/etc/npc/conf/npc.conf"
+      nohup npc -config=/etc/npc/conf/npc.conf >/dev/null 2>&1 &
+      sleep 120
+    fi
+
+    # 获取当前 NPC 进程的 CPU 使用率
     curNpcCpu=$(top -b -n3 -p $(ps aux | grep "npc -config=" | grep -v grep | awk '{print $2}') | grep "npc" | tail -1 | awk -F ' ' '{print $9}')
     #echo "curNpcCpu: $curNpcCpu"
 
+    # 如果当前 NPC 进程的 CPU 使用率大于 RERUN_MAX_NPC_CPU，则重启 NPC 服务
     if [ -n "$curNpcCpu" ] && [ $(echo "$curNpcCpu > $RERUN_MAX_NPC_CPU" | bc) -eq 1 ]; then
       echo "npc cpu gt $RERUN_MAX_NPC_CPU, curNpcCpu: $curNpcCpu"
       echo "reset run npc"
@@ -34,7 +44,7 @@ if [ -n "$RERUN_MAX_NPC_CPU" ]; then
           kill -9 $pid
       done
 
-      echo "RUN CMD02: npc -config=/etc/npc/conf/npc.conf"
+      echo "RUN CMD03: npc -config=/etc/npc/conf/npc.conf"
       nohup npc -config=/etc/npc/conf/npc.conf >/dev/null 2>&1 &
     fi
   done
